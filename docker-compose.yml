@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  api-service:
+    container_name: apibased_services_api
+    build: .
+    # This command overrides the Dockerfile to force it to use 7999
+    command: uvicorn app.main:app --host 0.0.0.0 --port 7999
+    ports:
+      - "7999:7999" # Your computer's 7999 -> Container's 7999
+    volumes:
+      - ./sql_app.db:/code/sql_app.db 
+
+  kong:
+    image: kong:latest
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.yml
+      # Forces Kong to listen on 8080 internally, completely avoiding 8000
+      - KONG_PROXY_LISTEN=0.0.0.0:8080 
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+    ports:
+      - "8080:8080" # Your computer's 8080 -> Kong's 8080
+    volumes:
+      - ./kong.yml:/kong/declarative/kong.yml
+    depends_on:
+      - api-service

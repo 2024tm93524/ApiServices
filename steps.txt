@@ -1,0 +1,37 @@
+# Run Instructions: BITS WILP API Services
+
+This application can be run in two ways: using a local Python Virtual Environment (for development) or using Docker Compose (for production simulation with the Kong API Gateway).
+
+## Method 1: Running Locally (Virtual Environment)
+Use this method if you just want to test the FastAPI code directly without the API Gateway.
+
+1. **Open your terminal** in the `restapi_services` folder.
+2. **Activate the virtual environment**:
+   * Windows: python -m venv .venv, `.venv\Scripts\activate`
+   * Mac/Linux: `source .venv/bin/activate`
+3. **Install dependencies** (if you haven't already):
+   * `pip install -r requirements.txt`
+4. **Seed the database** (if starting fresh, delete `sql_app.db` first):
+   * `python -m app.seed_db`
+5. **Start the server**:
+   * `uvicorn app.main:app --reload --port 7999`
+6. **Access the APIs**:
+   * REST/RPC (Swagger UI): `http://localhost:7999/docs`
+   * GraphQL (GraphiQL UI): `http://localhost:7999/graphql`
+
+---
+
+## Method 2: Running via Docker (with Kong Gateway)
+Use this method to fulfill Assignment Q2. This spins up the API and places Kong in front of it to enforce Rate Limiting and Size Limiting.
+
+1. **Stop any local servers**: Ensure your local `uvicorn` server from Method 1 is stopped (`Ctrl + C`) so port 7999 is free.
+2. **Open Docker Desktop**: Ensure the Docker engine is running on your machine.
+3. **Open your terminal** in the `restapi_services` folder.
+4. **Build and Start the containers**:
+   * `docker compose up --build -d`
+5. **Test the Gateway (Port 8080)**:
+   * **Test APIs:** Go to `http://localhost:8080/docs` or `http://localhost:8080/graphql`.
+   * **Test Rate Limit:** Refresh `http://localhost:8080/books` 4 times rapidly. You will receive an "API rate limit exceeded" error.
+   * **Test Size Limit:** Attempt to POST a large JSON payload to `/artists`. You will receive a `413 Payload Too Large` error.
+6. **Stop the containers** (when finished):
+   * `docker compose down`

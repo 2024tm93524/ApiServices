@@ -1,0 +1,17 @@
+_format_version: "3.0"
+services:
+  - name: fastapi-backend
+    url: http://api-service:7999  
+    routes:
+      - name: all-routes
+        paths:
+          - /
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100       
+          policy: local
+      - name: request-size-limiting
+        config:
+          allowed_payload_size: 20   # Set to 20
+          #size_unit: bytes           # Change unit to bytes
