@@ -1,0 +1,285 @@
+{
+  "openapi": "3.1.1",
+  "info": {
+    "title": "Record Label API (Artists)",
+    "version": "3.1.1"
+  },
+  "paths": {
+    "/artists": {
+      "get": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Get Artists",
+        "operationId": "get_artists_artists_get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Amount of info on the page",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Amount of info on the page"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "description": "Page number/offset",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Page number/offset"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ArtistResponse"
+                  },
+                  "title": "Response Get Artists Artists Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Create Artist",
+        "operationId": "create_artist_artists_post",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ArtistCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtistResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/artists/{artistname}": {
+      "get": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Get Artist By Name",
+        "operationId": "get_artist_by_name_artists__artistname__get",
+        "security": [
+          {
+            "HTTPBasic": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "artistname",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Artistname"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtistResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ArtistCreate": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Artist name"
+          },
+          "genre": {
+            "type": "string",
+            "title": "Genre",
+            "description": "Artist genre"
+          },
+          "albums_published": {
+            "type": "integer",
+            "title": "Albums Published",
+            "description": "Number of albums published under the label"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username",
+            "description": "Artist username"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "genre",
+          "albums_published",
+          "username"
+        ],
+        "title": "ArtistCreate"
+      },
+      "ArtistResponse": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Artist name"
+          },
+          "genre": {
+            "type": "string",
+            "title": "Genre",
+            "description": "Artist genre"
+          },
+          "albums_published": {
+            "type": "integer",
+            "title": "Albums Published",
+            "description": "Number of albums published under the label"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "genre",
+          "albums_published",
+          "username"
+        ],
+        "title": "ArtistResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBasic": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}
