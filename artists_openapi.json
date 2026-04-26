@@ -51,9 +51,9 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ArtistResponse"
+                    "$ref": "#/components/schemas/Artist"
                   },
-                  "title": "Response Get Artists Artists Get"
+                  "title": "Response Get Artists"
                 }
               }
             }
@@ -86,7 +86,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ArtistCreate"
+                "$ref": "#/components/schemas/Artist"
               }
             }
           }
@@ -97,7 +97,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArtistResponse"
+                  "$ref": "#/components/schemas/Artist"
                 }
               }
             }
@@ -144,7 +144,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ArtistResponse"
+                  "$ref": "#/components/schemas/Artist"
                 }
               }
             }
@@ -165,7 +165,7 @@
   },
   "components": {
     "schemas": {
-      "ArtistCreate": {
+      "Artist": {
         "properties": {
           "name": {
             "type": "string",
@@ -195,38 +195,7 @@
           "albums_published",
           "username"
         ],
-        "title": "ArtistCreate"
-      },
-      "ArtistResponse": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Artist name"
-          },
-          "genre": {
-            "type": "string",
-            "title": "Genre",
-            "description": "Artist genre"
-          },
-          "albums_published": {
-            "type": "integer",
-            "title": "Albums Published",
-            "description": "Number of albums published under the label"
-          },
-          "username": {
-            "type": "string",
-            "title": "Username"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "genre",
-          "albums_published",
-          "username"
-        ],
-        "title": "ArtistResponse"
+        "title": "Artist"
       },
       "HTTPValidationError": {
         "properties": {
@@ -283,3 +252,4 @@
     }
   }
 }
+
