@@ -9,9 +9,9 @@ services:
     plugins:
       - name: rate-limiting
         config:
-          minute: 100       
+          minute: 100               # Allows 100 requests per minute
           policy: local
       - name: request-size-limiting
         config:
-          allowed_payload_size: 20   # Set to 20
-          #size_unit: bytes           # Change unit to bytes
+          allowed_payload_size: 1   # Limit set to 1 Megabyte
+          #size_unit: bytes         # Change unit to bytes
